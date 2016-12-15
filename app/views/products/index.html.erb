@@ -1,0 +1,130 @@
+<div>
+  <h3>Hi <%= @user.first_name %></h3>
+  <div id="header">
+    <a href="/shoes">Go to all Products</a>
+    <a href="/session/<%= @user.id %>" data-method="delete">Logout</a>
+  </div>
+  <div>
+    <h4>Sell Product</h4>
+    <form action="/products" method="post">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
+      <table>
+        <tr>
+          <td>Name</td>
+          <td>
+            <input type="text" name="product[name]"/>
+          </td>
+        </tr>
+        <tr>
+          <td>Amount</td>
+          <td>
+            <input type="text" name="product[amount]"/>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="submit" value="Sell"/>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+
+  <div id="not_sold">
+    <h4>Your product that are not yet sold:</h4>
+    <table>
+      <thead>
+        <tr>
+          <td>Product</td>
+          <td>Date Posted</td>
+          <td>Amount</td>
+          <td>Action</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @products.each do |p| %>
+        <tr>
+          <td><%= p.name %></td>
+          <td>
+            <%= p.date_posted %>
+          </td>
+          <td>
+            <%= p.amount %>
+          </td>
+          <td>
+            <a href="/product/<%= p.id %>/destroy" data-method="delete">Remove</a>
+          </td>
+        </tr>
+          <% end %>
+      </tbody>
+    </table>
+  </div>
+
+
+  <div id="sales">
+    <h4>Sales</h4>
+    <table>
+      <thead>
+        <tr>
+          <td>Product</td>
+          <td>Date Bought</td>
+          <td>Buyer</td>
+          <td>Amount</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @products_sold.each do |p| %>
+        <tr>
+          <td><%= p.name %></td>
+          <td>
+            <%= p.date_posted %></td>
+          <td>
+            <%= p.buyer.first_name %> <%= p.buyer.last_name %>
+            </td>
+          <td>
+            <%= p.amount %></td>
+        </tr>
+          <% end %>
+      </tbody>
+    </table>
+    
+    <label>Total: <%= @products_sold.inject(0) { |sum, p| sum + p.amount } %></label>
+  </div>
+
+
+  <div id="Purchases">
+    <h4>Purchases</h4>
+    <table>
+      <thead>
+        <tr>
+          <td>Product</td>
+          <td>Date Bought</td>
+          <td>Seller</td>
+          <td>Amount</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @purchases.each do |p| %>
+        <tr>
+          <td>
+            <%= p.name %>
+          </td>
+          <td>
+            <%= p.date_posted %>
+          </td>
+          <td>
+            <%= p.seller.first_name %>
+          </td>
+          <td>
+            <%= p.amount %>
+          </td>
+        </tr>
+          <% end %>
+      </tbody>
+    </table>
+    <label>
+      Total: <%= @purchases.inject(0) { |sum, p| sum + p.amount } %>
+  </label>
+  </div>
+</div>

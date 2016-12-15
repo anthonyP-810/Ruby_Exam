@@ -4,11 +4,11 @@ class SessionController < ApplicationController
 	if @user && @user.authenticate(login_params[:password])
 		puts 'true'
 		session[:user_id] = @user.id
-		redirect_to "/"
+		redirect_to "/dashboard/#{@user.id}"
 	else
 		puts 'false'
 		flash[:errors] = 'Invalid Credentials'
-		redirect_to root_path
+		redirect_to '/'
 	end
   end
 
