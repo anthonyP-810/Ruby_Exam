@@ -1,5 +1,6 @@
 class UserController < ApplicationController
   def index
+	
   end
 
   def create
@@ -7,7 +8,7 @@ class UserController < ApplicationController
 		if user.valid?
 			user.save
 			session[:user_id] = user.id
-			redirect_to '/'
+			redirect_to "/dashboard/#{user.id}"
 		else
 			flash[:message] = 'Invalid credentials'
 			redirect_to '/'
